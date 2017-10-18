@@ -37,6 +37,10 @@
 #cc-post-republisher-modal-button-open img {
 	vertical-align: middle;
 	margin-right: 1rem;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
 }
 
 #cc-post-republisher-modal-button-close {

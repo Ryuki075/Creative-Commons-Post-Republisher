@@ -17,6 +17,7 @@ class CC_Post_Republisher {
 		$this->version = '1.0.0';
 		$this->assets_url = plugin_dir_url( __FILE__) . 'assets/';
 
+		// add_action( 'init', array( $this, 'load_republish_on_single' ) );
 		$this->load_republish_on_single();
 
 		$this->licenses = array(
@@ -83,15 +84,11 @@ class CC_Post_Republisher {
      */
 	public function load_republish_on_single() {
 
-		// if ( is_single() ) {
-
 			add_action( 'wp_footer', array( $this, 'render_republish_box' ), 99 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'cc_post_republisher_scripts' ) );
 			add_filter( 'the_content', array( $this, 'cc_post_republisher_open_modal' ) );
 
 			add_filter( 'body_class', array( $this, 'cc_post_republisher_body_class' ), 20 );
-
-		// }
 
 	}
 
@@ -100,8 +97,12 @@ class CC_Post_Republisher {
      */
 	public function cc_post_republisher_scripts() {
 
-		wp_enqueue_style( 'cc-post-republisher-css', $this->assets_url . 'css/cc-post-republisher.css', array(), '1.0.0' );
-		wp_enqueue_script( 'cc-post-republisher-js', $this->assets_url . 'js/cc-post-republisher.js', array(), '1.0.0', true );
+		if ( is_single() ) {
+
+			wp_enqueue_style( 'cc-post-republisher-css', $this->assets_url . 'css/cc-post-republisher.css', array(), '1.0.0' );
+			wp_enqueue_script( 'cc-post-republisher-js', $this->assets_url . 'js/cc-post-republisher.js', array(), '1.0.0', true );
+
+		}
 
 	}
 
@@ -110,7 +111,11 @@ class CC_Post_Republisher {
      */
 	public function cc_post_republisher_body_class( $classes ) {
 
-		$classes[] = 'cc-post-republisher';
+		if ( is_single() ) {
+
+			$classes[] = 'cc-post-republisher';
+
+		}
 
 		return $classes;
 
@@ -121,21 +126,25 @@ class CC_Post_Republisher {
      */
 	public function cc_post_republisher_open_modal( $content ) {
 
-		// Get the license for this post
-		$post_license = $this->get_license();
+		if ( is_single() ) {
 
-		// If this has a CC license attributed, display open modal
-		if ( $post_license != 'no-cc-license' ) {
+			// Get the license for this post
+			$post_license = $this->get_license();
 
-			$license_name = $this->licenses[$post_license]['license_name'];
-			$license_img = $this->licenses[$post_license]['license_image'];
-			$license_image = "<img src='{$this->assets_url}img/{$license_img}' alt='Creative Commons License {$license_name}' />";
+			// If this has a CC license attributed, display open modal
+			if ( $post_license != 'no-cc-license' ) {
 
-			$content .= "<a id='cc-post-republisher-modal-button-open'>{$license_image}Republish</a>";
+				$license_name = $this->licenses[$post_license]['license_name'];
+				$license_img = $this->licenses[$post_license]['license_image'];
+				$license_image = "<img src='{$this->assets_url}img/{$license_img}' alt='Creative Commons License {$license_name}' />";
+
+				$content .= "<a id='cc-post-republisher-modal-button-open'>{$license_image}Republish</a>";
+
+			}
 
 		}
 
-		echo $content;
+		return $content;
 
 	}
 
@@ -220,27 +229,31 @@ class CC_Post_Republisher {
 
 		global $post;
 
-		echo '<div id="cc-post-republisher-modal-container">';
+		if ( is_single() ) {
 
-			echo '<div id="cc-post-republisher-modal">';
+			echo '<div id="cc-post-republisher-modal-container">';
 
-				echo '<span id="cc-post-republisher-modal-button-close">&times;</span>';
+				echo '<div id="cc-post-republisher-modal">';
 
-				echo $this->get_post_republish_terms();
+					echo '<span id="cc-post-republisher-modal-button-close">&times;</span>';
 
-				echo $this->get_post_republish_license();
+					echo $this->get_post_republish_terms();
 
-				echo '<div id="cc-post-republisher-post-content">';
+					echo $this->get_post_republish_license();
 
-					echo $this->get_post_republish_title();
+					echo '<div id="cc-post-republisher-post-content">';
 
-					echo $this->get_post_republish_content();
+						echo $this->get_post_republish_title();
+
+						echo $this->get_post_republish_content();
+
+					echo '</div>';
 
 				echo '</div>';
 
 			echo '</div>';
 
-		echo '</div>';
+		}
 
 	}
 
