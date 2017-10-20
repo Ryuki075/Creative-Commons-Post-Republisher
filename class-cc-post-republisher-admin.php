@@ -68,7 +68,7 @@ class CC_Post_Republisher_Admin {
         <!-- Create a header in the default WordPress 'wrap' container -->
         <div class="wrap">
 
-            <h2><?php _e( 'Resource Toolbox Settings', $this->plugin_name ); ?></h2>
+            <h2><?php _e( 'Creative Commons Post Republisher Settings', $this->plugin_name ); ?></h2>
             <?php
             // Display any settings errors registered to the settings_error hook
             settings_errors();
