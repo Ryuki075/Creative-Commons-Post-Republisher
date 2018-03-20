@@ -41,3 +41,12 @@ Thumbs.db
 /.idea
 *.sublime-project
 *.sublime-workspace
+
+
+# Test Suite files #
+####################
+/bin
+/tests
+.travis.yml
+phpcs.xml.dist
+phpunit.xml.dist
