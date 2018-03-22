@@ -211,7 +211,7 @@ class CC_Post_Republisher {
 		$post_license = get_post_meta( get_the_id(), 'creative_commons_post_republisher_license-type' );
 
 		// If we've set to use the default post license (or none is set for this post), use the default.
-		if ( null === $post_license || 'default' === $post_license[0] ) {
+		if ( empty( $post_license ) || 'default' === $post_license[0] ) {
 			$post_license = $ccpr_options['license_type'];
 		} else {
 			$post_license = $post_license[0];
