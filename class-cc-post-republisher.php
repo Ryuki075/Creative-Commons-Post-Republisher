@@ -27,7 +27,7 @@ class CC_Post_Republisher {
 		$this->load_republish_on_single();
 
 		$this->licenses = array(
-			'cc-by'       => array(
+			'cc-by'         => array(
 				'license_type'        => 'cc-by',
 				'license_image'       => 'cc-by.png',
 				'license_name'        => 'Attribution',
@@ -36,7 +36,7 @@ class CC_Post_Republisher {
 				'license_url'         => 'https://creativecommons.org/licenses/by/4.0',
 				'license_legal_url'   => 'https://creativecommons.org/licenses/by/4.0/legalcode',
 			),
-			'cc-by-sa'    => array(
+			'cc-by-sa'      => array(
 				'license_type'        => 'cc-by-sa',
 				'license_image'       => 'cc-by-sa.png',
 				'license_name'        => 'Attribution-ShareAlike',
@@ -45,7 +45,7 @@ class CC_Post_Republisher {
 				'license_url'         => 'https://creativecommons.org/licenses/by-sa/4.0',
 				'license_legal_url'   => 'https://creativecommons.org/licenses/by-sa/4.0/legalcode',
 			),
-			'cc-by-nd'    => array(
+			'cc-by-nd'      => array(
 				'license_type'        => 'cc-by-nd',
 				'license_image'       => 'cc-by-nd.png',
 				'license_name'        => 'Attribution-NoDerivs',
@@ -54,7 +54,7 @@ class CC_Post_Republisher {
 				'license_url'         => 'https://creativecommons.org/licenses/by-nd/4.0',
 				'license_legal_url'   => 'https://creativecommons.org/licenses/by-nd/4.0/legalcode',
 			),
-			'cc-by-nc'    => array(
+			'cc-by-nc'      => array(
 				'license_type'        => 'cc-by-nc',
 				'license_image'       => 'cc-by-nc.png',
 				'license_name'        => 'Attribution-NonCommercial',
@@ -63,7 +63,7 @@ class CC_Post_Republisher {
 				'license_url'         => 'https://creativecommons.org/licenses/by-nc/4.0',
 				'license_legal_url'   => 'https://creativecommons.org/licenses/by-nc/4.0/legalcode',
 			),
-			'cc-by-nc-sa' => array(
+			'cc-by-nc-sa'   => array(
 				'license_type'        => 'cc-by-nc-sa',
 				'license_image'       => 'cc-by-nc-sa.png',
 				'license_name'        => 'Attribution-NonCommercial-ShareAlike',
@@ -72,7 +72,7 @@ class CC_Post_Republisher {
 				'license_url'         => 'https://creativecommons.org/licenses/by-nc-sa/4.0',
 				'license_legal_url'   => 'https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode',
 			),
-			'cc-by-nc-nd' => array(
+			'cc-by-nc-nd'   => array(
 				'license_type'        => 'cc-by-nc-nd',
 				'license_image'       => 'cc-by-nc-nd.png',
 				'license_name'        => 'Attribution-NonCommercial-NoDerivs',
@@ -83,12 +83,8 @@ class CC_Post_Republisher {
 			),
 			'no-cc-license' => array(
 				'license_type'        => 'no-cc-license',
-				// 'license_image'       => 'cc-by-nc-nd.png',
 				'license_name'        => 'No Creative Commons License',
-				// 'license_code'        => 'CC BY-NC-ND',
 				'license_description' => 'Select No Creative Commons License if you want to default to no license and will select licenses on individual posts.',
-				// 'license_url'         => 'https://creativecommons.org/licenses/by-nc-nd/4.0',
-				// 'license_legal_url'   => 'https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode',
 			),
 		);
 
