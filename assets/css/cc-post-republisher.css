@@ -75,6 +75,10 @@
 	margin-right: 1rem;
 }
 
+#cc-post-republisher-content-title {
+    font-weight: 700;
+}
+
 #cc-post-republisher-post-content {
 	padding: 0.5rem;
     background-color: #efefef;
@@ -92,7 +96,7 @@
     border-radius: 0;
     resize: none;
     box-shadow: none;
-    overflow: hidden;
+    overflow: scroll;
     outline: none;
     -webkit-box-flex: 1;
     -webkit-flex: 1 0 auto;

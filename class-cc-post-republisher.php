@@ -184,7 +184,7 @@ class CC_Post_Republisher {
 	 */
 	public function get_post_republish_title() {
 
-		return get_the_title();
+		return '<div id="cc-post-republisher-content-title">' . get_the_title() . '</div>';
 
 	}
 
@@ -194,6 +194,8 @@ class CC_Post_Republisher {
 	public function get_post_republish_content() {
 
 		$content = get_the_content();
+
+		$content .= "\n\n" . $this->get_post_republish_license();
 
 		return '<textarea id="cc-post-republisher-content-textarea" onfocus="this.select();" readonly>' . htmlspecialchars( $content ) . '</textarea>';
 
