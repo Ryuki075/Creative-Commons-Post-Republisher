@@ -26,6 +26,8 @@ class CC_Post_Republisher {
 
 		$this->load_republish_on_single();
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'cc_post_republisher_wp_admin_scripts' ) );
+
 		$this->licenses = array(
 			'cc-by'         => array(
 				'license_type'        => 'cc-by',
@@ -114,6 +116,22 @@ class CC_Post_Republisher {
 			wp_enqueue_script( 'cc-post-republisher-js', $this->assets_url . 'js/cc-post-republisher.js', array(), '1.0.0', true );
 
 		}
+
+	}
+
+	/**
+	 * Loads plugin admin scripts and styles.
+	 *
+	 * @param string $hook page that this displays on.
+	 */
+	public function cc_post_republisher_wp_admin_scripts( $hook ) {
+
+		// Load only on ?page=cc_post_republisher_settings.
+		if ( 'settings_page_cc_post_republisher_settings' !== $hook ) {
+				return;
+		}
+
+		wp_enqueue_script( 'cc-post-republisher-admin-js', $this->assets_url . 'js/cc-post-republisher-admin.js', array(), '1.0.0', true );
 
 	}
 
