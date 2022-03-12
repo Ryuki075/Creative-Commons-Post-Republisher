@@ -1,10 +1,10 @@
 ## === Creative Commons Post Republisher ===
-Contributors: davidjlaietta
+Contributors: wolfpaw
+Donate link: https://davidwolfpaw.com/
 Tags: creative commons, licensing
 Requires at least: 4.0.0
-Tested up to: 4.8.2
-Stable tag: trunk
-Requires PHP: 5.6
+Tested up to: 5.8.0
+Stable tag: 1.4.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,25 +14,39 @@ This plugin allows you to add a button to your site's posts which will display t
 
 1. Install and activate the plugin.
 2. Navigate to the Creative Commons settings page under Settings in the WordPress dashboard.
-3. Edit the terms text and select the license type that you want to use as a default.
+3. Edit the terms text andv select the license type that you want to use as a default.
 4. On individual posts, you can select a different license type to use, or set that particular post to not Creative Commons licensed.
 
-## == Screenshots ==
-
-1. Settings Page - Adding licensing test
-
-2. Settings Page - Selecting a license
-
-3. Single Post - Selecting a license
-
-4. Single Post - Republish modal overlaid on post
 
 ## == Frequently Asked Questions ==
 
-### Q. I have a question
-A. You can reach me with questions about this plugin via david@orangeblossommedia.com
+### = Q. I have a question =
+A. You can reach me with questions about this plugin via david@fixupfox.com
 
 ## == Changelog ==
+
+### = 1.4.0 =
+* Sets an option for CC0 No Rights Reserved
+* Sets an option for CC0 Public Domain Mark
+
+### = 1.3.0 =
+* Sets an option for defaulting to no CC license
+* Adds a pot translation file
+
+### = 1.2.3 =
+* Style for open button updated
+* Copy textarea set overflow to scroll instead of hidden
+
+### = 1.2.2 =
+* Open and Close links converted to HTML buttons
+* Style for open button updated
+
+### = 1.2.1 =
+* PHP Code Beautified
+* Updating plugin for translation and internationalization
+
+### = 1.2.0 =
+* Updated JavaScript used to not require jQuery
 
 ### = 1.0.0 =
 * First Version, wooo!

@@ -29,9 +29,10 @@
     padding: 0.5rem;
     line-height: 1;
     font-weight: 700;
-    display: inline-block;
+    display: block;
     margin-bottom: 1rem;
     text-decoration: none;
+    width: auto;
 }
 
 #cc-post-republisher-modal-button-open img {
@@ -41,6 +42,7 @@
     box-shadow: none;
     border-radius: 0;
     border: none;
+    display: inline;
 }
 
 #cc-post-republisher-modal-button-close {
@@ -75,10 +77,6 @@
 	margin-right: 1rem;
 }
 
-#cc-post-republisher-content-title {
-    font-weight: 700;
-}
-
 #cc-post-republisher-post-content {
 	padding: 0.5rem;
     background-color: #efefef;
@@ -89,7 +87,7 @@
     width: 100%;
     padding: 0.8rem;
     font-family: monospace;
-    font-size: 1.4rem;
+    font-size: 1rem;
     line-height: 1.4;
     background: #f0f0f0;
     border: none;
