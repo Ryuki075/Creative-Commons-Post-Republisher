@@ -7,22 +7,19 @@ class CC_Post_Republisher_Admin {
 	public function __construct() {
 
 		$this->plugin_name = 'cc-post-republisher';
-		$this->version     = '1.4.0';
+		$this->version     = CCPR_VERSION;
 		$this->assets_url  = plugin_dir_url( __FILE__ ) . 'assets/';
 
 		add_action( 'admin_menu', array( $this, 'setup_plugin_options_menu' ), 9 );
 		add_action( 'admin_init', array( $this, 'initialize_general_settings' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'cc_post_republisher_scripts' ) );
-
 	}
 
 	/**
 	 * Loads plugin scripts and styles
 	 */
 	public function cc_post_republisher_scripts() {
-
-		wp_enqueue_style( 'cc-post-republisher-admin-css', $this->assets_url . 'css/cc-post-republisher-admin.css', array(), '1.4.0' );
-
+		wp_enqueue_style( 'cc-post-republisher-admin-css', $this->assets_url . 'css/cc-post-republisher-admin.css', array(), CCPR_VERSION );
 	}
 
 	/**
@@ -38,7 +35,6 @@ class CC_Post_Republisher_Admin {
 			'cc_post_republisher_settings',
 			array( $this, 'render_settings_page_content' )
 		);
-
 	}
 
 	/**
@@ -54,16 +50,17 @@ class CC_Post_Republisher_Admin {
 
 		$defaults = array(
 			'termstext'    => sprintf(
-				'<strong>REPUBLISHING TERMS</strong><p>You may republish this article online or in print under our Creative Commons license. You may not edit or shorten the text, you must attribute the article to %s and you must include the author’s name in your republication.</p><p>If you have any questions, please email <a href="mailto:%s">%s</a></p>',
-				esc_html( $site_name ),
+				'<strong>REPUBLISHING TERMS</strong>
+				<p>You may republish this article online or in print under the selected Creative Commons license. You must provide attribution to the article when republishing. An ideal attribution to this article includes: Title, Author, Source, License. For more information on providing attribution, see: <a href="https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution" target="_blank">https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution</a></p>
+				<p>If you have any questions, please email <a href="mailto:%s">%s</a></p>',
 				esc_attr( $admin_email ),
 				esc_attr( $admin_email )
 			),
 			'license_type' => 'cc-by',
+			'button_text'  => 'Republish',
 		);
 
 		update_option( 'cc_post_republisher_settings', $defaults );
-
 	}
 
 	/**
@@ -141,51 +138,23 @@ class CC_Post_Republisher_Admin {
 			)
 		);
 
+		// add_settings_field(
+		//  'button_text',
+		//  __( 'Button Text', 'cc-post-republisher' ),
+		//  array( $this, 'text_input_callback' ),
+		//  'cc_post_republisher_general_settings',
+		//  'general_settings_section',
+		//  array(
+		//      'label_for'    => 'button_text',
+		//      'option_group' => 'cc_post_republisher_settings',
+		//      'option_id'    => 'button_text',
+		//  )
+		// );
+
 		register_setting(
 			'cc_post_republisher_general_settings',
 			'cc_post_republisher_settings'
 		);
-
-	}
-
-	/**
-	 * Input Callbacks
-	 */
-	public function text_input_callback( $text_input ) {
-
-		// Get arguments from setting
-		$option_group = $text_input['option_group'];
-		$option_id    = $text_input['option_id'];
-		$option_name  = "{$option_group}[{$option_id}]";
-
-		// Get existing option from database
-		$options      = get_option( $option_group );
-		$option_value = isset( $options[ $option_id ] ) ? $options[ $option_id ] : '0';
-
-		// Render the output
-		echo "<input type='text' id='{$option_id}' name='{$option_name}' value='{$option_value}' />";
-
-	}
-
-	public function checkbox_input_callback( $checkbox_input ) {
-
-		// Get arguments from setting
-		$option_group       = $checkbox_input['option_group'];
-		$option_id          = $checkbox_input['option_id'];
-		$option_name        = "{$option_group}[{$option_id}]";
-		$option_description = $checkbox_input['option_description'];
-
-		// Get existing option from database
-		$options      = get_option( $option_group );
-		$option_value = isset( $options[ $option_id ] ) ? $options[ $option_id ] : '';
-
-		// Render the output
-		$input  = '';
-		$input .= "<input type='checkbox' id='{$option_id}' name='{$option_name}' value='1' " . checked( $option_value, 1, false ) . ' />';
-		$input .= "<label for='{$option_id}'>{$option_description}</label>";
-
-		echo $input;
-
 	}
 
 	public function wp_editor_input_callback( $wp_editor_input ) {
@@ -204,7 +173,6 @@ class CC_Post_Republisher_Admin {
 		);
 		// Render the output
 		wp_editor( $content, $option_id, $settings );
-
 	}
 
 	public function license_input_callback( $license_input ) {
@@ -220,7 +188,7 @@ class CC_Post_Republisher_Admin {
 		$option_value = isset( $options[ $option_id ] ) ? $options[ $option_id ] : '';
 
 		// Render the output
-		echo "<h4>{$option_description}</h4>";
+		echo '<h4>' . esc_html( $option_description ) . '</h4>';
 		?>
 		<div class="cc-post-republisher-licenses">
 			<div class="license-details">
@@ -350,6 +318,15 @@ class CC_Post_Republisher_Admin {
 		<?php
 	}
 
+	public function text_input_callback( $args ) {
+		$option_group = $args['option_group'];
+		$option_id    = $args['option_id'];
+		$option_name  = "{$option_group}[{$option_id}]";
+		$options      = get_option( $option_group );
+		$value        = isset( $options[ $option_id ] ) ? $options[ $option_id ] : '';
+
+		echo '<input type="text" id="' . esc_attr( $option_id ) . '" name="' . esc_attr( $option_name ) . '" value="' . esc_attr( $value ) . '" />';
+	}
 
 	// Validate inputs
 	public function validate_inputs( $input ) {
@@ -366,7 +343,5 @@ class CC_Post_Republisher_Admin {
 		// Return the array processing any additional functions filtered by this action
 		return apply_filters( 'validate_inputs', $output, $input );
 	}
-
-
 }
 new CC_Post_Republisher_Admin();

@@ -3,17 +3,13 @@
  * @package Creative Commons Post Republisher
  */
 class CC_Post_Republisher_Meta_Box {
-
-	private $screens = array(
-		'post',
-	);
-
 	/**
 	 * Class construct method. Adds actions to their respective WordPress hooks.
 	 */
 	public function __construct() {
-
-		$this->fields = array(
+		$options              = get_option( 'cc_post_republisher_settings' );
+		$this->global_license = isset( $options['license_type'] ) ? $options['license_type'] : 'cc-by';
+		$this->fields         = array(
 			array(
 				'id'      => 'license-type',
 				'label'   => 'License Type',
@@ -36,7 +32,6 @@ class CC_Post_Republisher_Meta_Box {
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
-
 	}
 
 	/**
@@ -44,9 +39,14 @@ class CC_Post_Republisher_Meta_Box {
 	 * Goes through screens (post types) and adds the meta box.
 	 */
 	public function add_meta_boxes() {
+		$screens    = array();
+		$post_types = get_post_types( array( 'public' => true ), 'names' );
 
-		foreach ( $this->screens as $screen ) {
+		foreach ( $post_types as $post_type ) {
+			$screens[] = $post_type;
+		}
 
+		foreach ( $screens as $screen ) {
 			add_meta_box(
 				'creative-commons-post-republisher',
 				__( 'Creative Commons', 'cc-post-republisher' ),
@@ -55,9 +55,7 @@ class CC_Post_Republisher_Meta_Box {
 				'side',
 				'default'
 			);
-
 		}
-
 	}
 
 	/**
@@ -66,87 +64,78 @@ class CC_Post_Republisher_Meta_Box {
 	 * @param object $post WordPress post object
 	 */
 	public function add_meta_box_callback( $post ) {
-
 		wp_nonce_field( 'creative_commons_post_republisher_data', 'creative_commons_post_republisher_nonce' );
 
 		printf(
-			/* translators: admin url */
-			__( 'Assign a license to this post. If no license is selected, the post will have the default license that is set in the <a href="%s">Creative Commons Post Republisher Settings</a>.', 'cc-post-republisher' ),
-			esc_url( admin_url() . 'options-general.php?page=cc_post_republisher_settings' )
+			wp_kses(
+				/* translators: admin url */
+				__( 'Assign a license to this post. If no license is selected, the post will have the default license that is set in the <a href="%s">Creative Commons Post Republisher Settings</a>.', 'cc-post-republisher' ),
+				array(
+					'a' => array(
+						'href' => array(),
+					),
+				)
+			),
+			esc_url( admin_url( 'options-general.php?page=cc_post_republisher_settings' ) )
 		);
 
 		$this->generate_fields( $post );
-
 	}
 
 	/**
 	 * Generates the field's HTML for the meta box.
 	 */
 	public function generate_fields( $post ) {
-
-		$output = '';
-
 		foreach ( $this->fields as $field ) {
 
-			$label    = '<label for="' . $field['id'] . '">' . $field['label'] . '</label>';
+			$label    = '<label for="' . esc_attr( $field['id'] ) . '">' . esc_html( $field['label'] ) . '</label>';
 			$db_value = get_post_meta( $post->ID, 'creative_commons_post_republisher_' . $field['id'], true );
 			if ( empty( $db_value ) ) {
 				$db_value = $field['default'];
 			}
 			$input  = '<fieldset>';
-			$input .= '<legend class="screen-reader-text">' . $field['label'] . '</legend>';
-			$i      = 0;
+			$input .= '<legend class="screen-reader-text">' . esc_html( $field['label'] ) . '</legend>';
 			foreach ( $field['options'] as $key => $value ) {
 				$field_value = ! is_numeric( $key ) ? $key : $value;
-				$input      .= sprintf(
+				// Display what the default global license is set to
+				if ( 'default' === $key ) {
+					$value .= ' <strong>(' . esc_html( strtoupper( $this->global_license ) ) . ')</strong>';
+				}
+				$input .= sprintf(
 					'<label><input %s id="%s" name="%s" type="radio" value="%s"> %s</label>%s',
-					$db_value === $field_value ? 'checked' : '',
-					$field['id'],
-					$field['id'],
-					$field_value,
-					$value,
-					$i < count( $field['options'] ) - 1 ? '<br>' : ''
+					checked( $db_value, $field_value, false ),
+					esc_attr( $field['id'] ),
+					esc_attr( $field['id'] ),
+					esc_attr( $field_value ),
+					wp_kses( $value, array( 'strong' => array() ) ),
+					'<br>'
 				);
-				$i++;
 			}
 			$input .= '</fieldset>';
 
-			$output .= '<p>' . $input . '</p>';
-
+			echo '<p>' . $input . '</p>';
 		}
-
-		echo $output;
-
 	}
 
 	/**
 	 * Hooks into WordPress' save_post function
 	 */
 	public function save_post( $post_id ) {
-
-		if ( ! isset( $_POST['creative_commons_post_republisher_nonce'] ) ) {
+		// Check for nonce
+		if ( ! isset( $_POST['creative_commons_post_republisher_nonce'] ) || ! wp_verify_nonce( $_POST['creative_commons_post_republisher_nonce'], 'creative_commons_post_republisher_data' ) ) {
 			return $post_id;
 		}
 
-		$nonce = $_POST['creative_commons_post_republisher_nonce'];
-		if ( ! wp_verify_nonce( $nonce, 'creative_commons_post_republisher_data' ) ) {
-			return $post_id;
-		}
-
+		// Check for autosave
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return $post_id;
 		}
 
 		foreach ( $this->fields as $field ) {
-
 			if ( isset( $_POST[ $field['id'] ] ) ) {
-
-				update_post_meta( $post_id, 'creative_commons_post_republisher_' . $field['id'], $_POST[ $field['id'] ] );
-
+				update_post_meta( $post_id, 'creative_commons_post_republisher_' . $field['id'], sanitize_text_field( $_POST[ $field['id'] ] ) );
 			}
 		}
-
 	}
-
 }
 new CC_Post_Republisher_Meta_Box();

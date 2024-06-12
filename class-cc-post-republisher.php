@@ -5,21 +5,11 @@
 class CC_Post_Republisher {
 
 	private static $post;
-
 	private $licenses;
 
-	// Get options from DB
-	// Get content and title of post
-	// Clean content and title of post
 	public function __construct() {
-
-		$this->plugin_name = 'cc-post-republisher';
-		$this->version     = '1.4.0';
-		$this->assets_url  = plugin_dir_url( __FILE__ ) . 'assets/';
-
-		$this->load_republish_on_single();
-
-		$this->licenses = array(
+		$this->assets_url = plugin_dir_url( __FILE__ ) . 'assets/';
+		$this->licenses   = array(
 			'cc-by'       => array(
 				'license_type'        => 'cc-by',
 				'license_image'       => 'cc-by.png',
@@ -74,7 +64,7 @@ class CC_Post_Republisher {
 				'license_url'         => __( 'https://creativecommons.org/licenses/by-nc-nd/4.0', 'cc-post-republisher' ),
 				'license_legal_url'   => __( 'https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode', 'cc-post-republisher' ),
 			),
-			'cc0' => array(
+			'cc0'         => array(
 				'license_type'        => 'cc0',
 				'license_image'       => 'cc0.png',
 				'license_name'        => __( 'No Rights Reserved', 'cc-post-republisher' ),
@@ -83,7 +73,7 @@ class CC_Post_Republisher {
 				'license_url'         => __( 'https://creativecommons.org/publicdomain/zero/1.0/', 'cc-post-republisher' ),
 				'license_legal_url'   => __( 'https://creativecommons.org/publicdomain/zero/1.0/legalcode', 'cc-post-republisher' ),
 			),
-			'pdm' => array(
+			'pdm'         => array(
 				'license_type'        => 'pdm',
 				'license_image'       => 'pdm.png',
 				'license_name'        => __( 'Public Domain Mark "No Known Copyright"', 'cc-post-republisher' ),
@@ -94,153 +84,112 @@ class CC_Post_Republisher {
 			),
 		);
 
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 	}
 
 	/**
-	 * Loads republish box only on single posts
+	 * Localizes the frontend script with necessary post data
 	 */
-	public function load_republish_on_single() {
+	public function enqueue_scripts() {
+		global $post;
 
-			add_action( 'wp_footer', array( $this, 'render_republish_box' ), 99 );
-			add_action( 'wp_enqueue_scripts', array( $this, 'cc_post_republisher_scripts' ) );
-			add_filter( 'the_content', array( $this, 'cc_post_republisher_open_modal' ) );
-
-			add_filter( 'body_class', array( $this, 'cc_post_republisher_body_class' ), 20 );
-
+		// Localize the modal script with new data
+		wp_localize_script(
+			'cc-post-republisher-modal',
+			'wpApiSettings',
+			array(
+				'root'           => esc_url_raw( rest_url() ),
+				'nonce'          => wp_create_nonce( 'wp_rest' ),
+				'postID'         => $post->ID,
+				'postType'       => $post->post_type,
+				'licenseContent' => $this->get_post_republish_license( isset( $post->ID ) ? $post->ID : 0 ),
+				'termsContent'   => $this->get_post_republish_terms(),
+			)
+		);
 	}
 
 	/**
-	 * Loads plugin scripts and styles
+	 * Localizes the dashboard script with necessary post data
 	 */
-	public function cc_post_republisher_scripts() {
+	public function admin_enqueue_scripts() {
+		global $post;
+		$options              = get_option( 'cc_post_republisher_settings' );
+		$active_license       = isset( $options['license_type'] ) ? $options['license_type'] : 'cc-by';
+		$licenses             = $this->licenses;
+		$active_license_image = isset( $licenses[ $active_license ] ) ? plugin_dir_url( __FILE__ ) . 'assets/img/' . $licenses[ $active_license ]['license_image'] : '';
 
-		if ( is_single() ) {
-
-			wp_enqueue_style( 'cc-post-republisher-css', $this->assets_url . 'css/cc-post-republisher.css', array(), '1.4.0' );
-			wp_enqueue_script( 'cc-post-republisher-js', $this->assets_url . 'js/cc-post-republisher.js', array(), '1.4.0', true );
-
-		}
-
-	}
-
-	/**
-	 * Loads plugin scripts and styles
-	 */
-	public function cc_post_republisher_body_class( $classes ) {
-
-		if ( is_single() ) {
-
-			$classes[] = 'cc-post-republisher';
-
-		}
-
-		return $classes;
-
-	}
-
-	/**
-	 * Loads button to open modal
-	 */
-	public function cc_post_republisher_open_modal( $content ) {
-
-		if ( is_single() ) {
-
-			// Get the license for this post
-			$post_license = $this->get_license();
-
-			// If this has a CC license attributed, display open modal
-			if ( 'no-cc-license' !== $post_license ) {
-
-				$license_name  = $this->licenses[ $post_license ]['license_name'];
-				$license_text  = __( 'Creative Commons License', 'cc-post-republisher' );
-				$license_img   = $this->licenses[ $post_license ]['license_image'];
-				$license_image = "<img src='{$this->assets_url}img/{$license_img}' alt='{$license_text} {$license_name}' />";
-
-				$content .= '<button id="cc-post-republisher-modal-button-open">' . $license_image . __( 'Republish', 'cc-post-republisher' ) . '</button>';
-
-			}
-		}
-
-		return $content;
-
-	}
-
-	/**
-	 * Gets the title of the post that we're going to republish
-	 */
-	public function get_post_republish_title() {
-
-		return get_the_title();
-
-	}
-
-	/**
-	 * Gets the content of the post that we're going to republish
-	 */
-	public function get_post_republish_content() {
-
-		$content = get_the_content();
-
-		return '<textarea id="cc-post-republisher-content-textarea" onfocus="this.select();" readonly>' . htmlspecialchars( $content ) . '</textarea>';
-
+		// Localize the block script with new data
+		wp_localize_script(
+			'cc-post-republisher-block',
+			'blockSettings',
+			array(
+				'activeLicense'      => $active_license,
+				'activeLicenseImage' => $active_license_image,
+			)
+		);
 	}
 
 	/**
 	 * Gets the license of the post that we're going to republish
 	 */
-	public function get_license() {
+	public function get_license_type( $post_id ) {
+		// Get the license from the post meta if set for this specific post
+		$license_type = get_post_meta( $post_id, 'creative_commons_post_republisher_license-type', true );
 
-		// Get the license settings to pull the global default
-		$ccpr_options = get_option( 'cc_post_republisher_settings' );
-
-		// Get the license selected for this specific post
-		$post_license = get_post_meta( get_the_id(), 'creative_commons_post_republisher_license-type' );
-
-		// If we've set to use the default post license (or none is set for this post), use the default
-		if ( empty( $post_license ) || 'default' === $post_license[0] ) {
-			$post_license = $ccpr_options['license_type'];
-		} else {
-			$post_license = $post_license[0];
+		if ( $license_type && 'default' !== $license_type ) {
+			return $license_type;
 		}
 
-		return $post_license;
-
+		// Fall back to the global setting
+		$options = get_option( 'cc_post_republisher_settings' );
+		return isset( $options['license_type'] ) ? $options['license_type'] : 'cc-by';
 	}
+
 
 	/**
 	 * Gets the license of the post that we're going to republish
 	 */
-	public function get_post_republish_license() {
+	public function get_post_republish_license( $post_id ) {
 
 		// Get the license for this post
-		$post_license = $this->get_license();
+		$license_type = $this->get_license_type( $post_id );
 
-		if ( 'cc0' === $post_license || 'pdm' === $post_license ) {
+		if ( isset( $this->licenses[ $license_type ] ) ) {
+			$license       = $this->licenses[ $license_type ];
+			$license_image = "<img src='{$this->assets_url}img/{$license['license_image']}' alt='{$license['license_name']}' />";
+			$license_type  = "<div id='cc-post-republisher-license'><h3>License</h3><a href='{$license['license_url']}' target='_blank'>{$license_image}{$license['license_name']}</a></div>";
 
-			$license_url   = $this->licenses[ $post_license ]['license_url'];
-			$license_name  = $this->licenses[ $post_license ]['license_name'];
-			$license_img   = $this->licenses[ $post_license ]['license_image'];
+			return $license_type;
+		}
+
+		if ( 'cc0' === $license_type || 'pdm' === $license_type ) {
+
+			$license_url   = $this->licenses[ $license_type ]['license_url'];
+			$license_name  = $this->licenses[ $license_type ]['license_name'];
+			$license_img   = $this->licenses[ $license_type ]['license_image'];
 			$license_image = "<img src='{$this->assets_url}img/{$license_img}' alt='{$license_name}' />";
 
-			$license_type = "<div id='cc-post-republisher-license'><h3>License</h3><a href='{$license_url}' target='_blank'>{$license_image}{$license_name}</a></div>";
+			$license_type = "<div id='cc-post-republisher-license'><p><strong>License</strong></p><a href='{$license_url}' target='_blank'>{$license_image}{$license_name}</a></div>";
 
 			return $license_type;
 
 		}
 
-		if ( 'no-cc-license' !== $post_license ) {
+		if ( 'no-cc-license' !== $license_type ) {
 
-			$license_url   = $this->licenses[ $post_license ]['license_url'];
-			$license_name  = $this->licenses[ $post_license ]['license_name'];
-			$license_img   = $this->licenses[ $post_license ]['license_image'];
+			$license_url   = $this->licenses[ $license_type ]['license_url'];
+			$license_name  = $this->licenses[ $license_type ]['license_name'];
+			$license_img   = $this->licenses[ $license_type ]['license_image'];
 			$license_image = "<img src='{$this->assets_url}img/{$license_img}' alt='Creative Commons License {$license_name}' />";
 
-			$license_type = "<div id='cc-post-republisher-license'><h3>License</h3><a href='{$license_url}' target='_blank'>{$license_image}Creative Commons {$license_name}</a></div>";
+			$license_type = "<div id='cc-post-republisher-license'><p><strong>License</strong></p><a href='{$license_url}' target='_blank'>{$license_image}Creative Commons {$license_name}</a></div>";
 
 			return $license_type;
 
 		}
 
+		return '';
 	}
 
 	/**
@@ -253,40 +202,5 @@ class CC_Post_Republisher {
 		if ( '' !== $ccpr_options['termstext'] ) {
 			return wpautop( $ccpr_options['termstext'] );
 		}
-
 	}
-
-	public function render_republish_box() {
-
-		global $post;
-
-		if ( is_single() ) {
-
-			echo '<div id="cc-post-republisher-modal-container">';
-
-				echo '<div id="cc-post-republisher-modal">';
-
-					echo '<button id="cc-post-republisher-modal-button-close">&times;</button>';
-
-					echo $this->get_post_republish_terms();
-
-					echo $this->get_post_republish_license();
-
-					echo '<div id="cc-post-republisher-post-content">';
-
-						echo $this->get_post_republish_title();
-
-						echo $this->get_post_republish_content();
-
-					echo '</div>';
-
-				echo '</div>';
-
-			echo '</div>';
-
-		}
-
-	}
-
 }
-new CC_Post_Republisher();

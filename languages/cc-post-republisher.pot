@@ -1,349 +1,346 @@
-# Copyright (C) 2021 wolfpaw
+# Copyright (C) 2024 wolfpaw
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Creative Commons Post Republisher 1.4.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cc-post-republisher\n"
+"Project-Id-Version: Creative Commons Post Republisher 2.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/Creative-Commons-Post-Republisher\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-09-01T15:07:10+00:00\n"
+"POT-Creation-Date: 2024-06-12T11:40:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.5.1-alpha-0d94e07\n"
+"X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: cc-post-republisher\n"
 
 #. Plugin Name of the plugin
+#: cc-post-republisher.php
 msgid "Creative Commons Post Republisher"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: cc-post-republisher.php
 msgid "https://davidwolfpaw.com/"
 msgstr ""
 
 #. Description of the plugin
+#: cc-post-republisher.php
 msgid "Place a widget on post pages or after post content with a link to the Creative Commons license that you've applied to your site, as well as a republisher window that makes it easier for others to share your content while maintaining your licensing."
 msgstr ""
 
 #. Author of the plugin
+#: cc-post-republisher.php
 msgid "wolfpaw"
 msgstr ""
 
 #. Author URI of the plugin
+#: cc-post-republisher.php
 msgid "https://davidwolfpaw.com/plugins"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:35
-#: class-cc-post-republisher-admin.php:77
+#: class-cc-post-republisher-admin.php:32
+#: class-cc-post-republisher-admin.php:74
 msgid "Creative Commons Post Republisher Settings"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:36
+#: class-cc-post-republisher-admin.php:33
 #: class-cc-post-republisher-meta-box.php:52
 msgid "Creative Commons"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:112
+#: class-cc-post-republisher-admin.php:109
 msgid "General Settings"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:119
+#: class-cc-post-republisher-admin.php:116
 msgid "Terms Text"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:132
+#: class-cc-post-republisher-admin.php:129
 msgid "Creative Commons License Type"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:140
+#: class-cc-post-republisher-admin.php:137
 msgid "Select the default license that you want to apply to your post content. This can be changed on individual posts."
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:231
+#: class-cc-post-republisher-admin.php:199
 msgid "Creative Commons License Attribution CC BY"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:232
-#: class-cc-post-republisher.php:26
+#: class-cc-post-republisher-admin.php:200
+#: class-cc-post-republisher.php:16
 msgid "Attribution"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:233
-#: class-cc-post-republisher.php:27
+#: class-cc-post-republisher-admin.php:201
+#: class-cc-post-republisher.php:17
 msgid "CC BY"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:236
-#: class-cc-post-republisher.php:28
+#: class-cc-post-republisher-admin.php:204
+#: class-cc-post-republisher.php:18
 msgid "This license lets others distribute, remix, tweak, and build upon your work, even commercially, as long as they credit you for the original creation. This is the most accommodating of licenses offered. Recommended for maximum dissemination and use of licensed materials."
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:237
-#: class-cc-post-republisher.php:29
+#: class-cc-post-republisher-admin.php:205
+#: class-cc-post-republisher.php:19
 msgid "https://creativecommons.org/licenses/by/4.0"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:237
-#: class-cc-post-republisher-admin.php:251
-#: class-cc-post-republisher-admin.php:265
-#: class-cc-post-republisher-admin.php:279
-#: class-cc-post-republisher-admin.php:293
-#: class-cc-post-republisher-admin.php:307
-#: class-cc-post-republisher-admin.php:321
-#: class-cc-post-republisher-admin.php:335
+#: class-cc-post-republisher-admin.php:205
+#: class-cc-post-republisher-admin.php:219
+#: class-cc-post-republisher-admin.php:233
+#: class-cc-post-republisher-admin.php:247
+#: class-cc-post-republisher-admin.php:261
+#: class-cc-post-republisher-admin.php:275
+#: class-cc-post-republisher-admin.php:289
+#: class-cc-post-republisher-admin.php:303
 msgid "View License Deed"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:237
-#: class-cc-post-republisher.php:30
+#: class-cc-post-republisher-admin.php:205
+#: class-cc-post-republisher.php:20
 msgid "https://creativecommons.org/licenses/by/4.0/legalcode"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:237
-#: class-cc-post-republisher-admin.php:251
-#: class-cc-post-republisher-admin.php:265
-#: class-cc-post-republisher-admin.php:279
-#: class-cc-post-republisher-admin.php:293
-#: class-cc-post-republisher-admin.php:307
-#: class-cc-post-republisher-admin.php:321
+#: class-cc-post-republisher-admin.php:205
+#: class-cc-post-republisher-admin.php:219
+#: class-cc-post-republisher-admin.php:233
+#: class-cc-post-republisher-admin.php:247
+#: class-cc-post-republisher-admin.php:261
+#: class-cc-post-republisher-admin.php:275
+#: class-cc-post-republisher-admin.php:289
 msgid "View Legal Code"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:246
-#: class-cc-post-republisher.php:35
+#: class-cc-post-republisher-admin.php:214
+#: class-cc-post-republisher.php:25
 msgid "Attribution-ShareAlike"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:247
-#: class-cc-post-republisher.php:36
+#: class-cc-post-republisher-admin.php:215
+#: class-cc-post-republisher.php:26
 msgid "CC BY-SA"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:250
-#: class-cc-post-republisher.php:37
+#: class-cc-post-republisher-admin.php:218
+#: class-cc-post-republisher.php:27
 msgid "This license lets others remix, tweak, and build upon your work even for commercial purposes, as long as they credit you and license their new creations under the identical terms. This license is often compared to “copyleft” free and open source software licenses. All new works based on yours will carry the same license, so any derivatives will also allow commercial use. This is the license used by Wikipedia, and is recommended for materials that would benefit from incorporating content from Wikipedia and similarly licensed projects."
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:251
-#: class-cc-post-republisher.php:38
+#: class-cc-post-republisher-admin.php:219
+#: class-cc-post-republisher.php:28
 msgid "https://creativecommons.org/licenses/by-sa/4.0"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:251
-#: class-cc-post-republisher.php:39
+#: class-cc-post-republisher-admin.php:219
+#: class-cc-post-republisher.php:29
 msgid "https://creativecommons.org/licenses/by-sa/4.0/legalcode"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:260
-#: class-cc-post-republisher.php:44
+#: class-cc-post-republisher-admin.php:228
+#: class-cc-post-republisher.php:34
 msgid "Attribution-NoDerivs"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:261
-#: class-cc-post-republisher.php:45
+#: class-cc-post-republisher-admin.php:229
+#: class-cc-post-republisher.php:35
 msgid "CC BY-ND"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:264
-#: class-cc-post-republisher.php:46
+#: class-cc-post-republisher-admin.php:232
+#: class-cc-post-republisher.php:36
 msgid "This license allows for redistribution, commercial and non-commercial, as long as it is passed along unchanged and in whole, with credit to you."
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:265
-#: class-cc-post-republisher.php:47
+#: class-cc-post-republisher-admin.php:233
+#: class-cc-post-republisher.php:37
 msgid "https://creativecommons.org/licenses/by-nd/4.0"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:265
-#: class-cc-post-republisher.php:48
+#: class-cc-post-republisher-admin.php:233
+#: class-cc-post-republisher.php:38
 msgid "https://creativecommons.org/licenses/by-nd/4.0/legalcode"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:274
-#: class-cc-post-republisher.php:53
+#: class-cc-post-republisher-admin.php:242
+#: class-cc-post-republisher.php:43
 msgid "Attribution-NonCommercial"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:275
-#: class-cc-post-republisher.php:54
+#: class-cc-post-republisher-admin.php:243
+#: class-cc-post-republisher.php:44
 msgid "CC BY-NC"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:278
-#: class-cc-post-republisher.php:55
+#: class-cc-post-republisher-admin.php:246
+#: class-cc-post-republisher.php:45
 msgid "This license lets others remix, tweak, and build upon your work non-commercially, and although their new works must also acknowledge you and be non-commercial, they don’t have to license their derivative works on the same terms."
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:279
-#: class-cc-post-republisher.php:56
+#: class-cc-post-republisher-admin.php:247
+#: class-cc-post-republisher.php:46
 msgid "https://creativecommons.org/licenses/by-nc/4.0"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:279
-#: class-cc-post-republisher.php:57
+#: class-cc-post-republisher-admin.php:247
+#: class-cc-post-republisher.php:47
 msgid "https://creativecommons.org/licenses/by-nc/4.0/legalcode"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:288
-#: class-cc-post-republisher.php:62
+#: class-cc-post-republisher-admin.php:256
+#: class-cc-post-republisher.php:52
 msgid "Attribution-NonCommercial-ShareAlike"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:289
-#: class-cc-post-republisher.php:63
+#: class-cc-post-republisher-admin.php:257
+#: class-cc-post-republisher.php:53
 msgid "CC BY-NC-SA"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:292
-#: class-cc-post-republisher.php:64
+#: class-cc-post-republisher-admin.php:260
+#: class-cc-post-republisher.php:54
 msgid "This license lets others remix, tweak, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms."
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:293
-#: class-cc-post-republisher.php:65
+#: class-cc-post-republisher-admin.php:261
+#: class-cc-post-republisher.php:55
 msgid "https://creativecommons.org/licenses/by-nc-sa/4.0"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:293
-#: class-cc-post-republisher.php:66
+#: class-cc-post-republisher-admin.php:261
+#: class-cc-post-republisher.php:56
 msgid "https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:302
-#: class-cc-post-republisher.php:71
+#: class-cc-post-republisher-admin.php:270
+#: class-cc-post-republisher.php:61
 msgid "Attribution-NonCommercial-NoDerivs"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:303
-#: class-cc-post-republisher.php:72
+#: class-cc-post-republisher-admin.php:271
+#: class-cc-post-republisher.php:62
 msgid "CC BY-NC-ND"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:306
-#: class-cc-post-republisher.php:73
+#: class-cc-post-republisher-admin.php:274
+#: class-cc-post-republisher.php:63
 msgid "This license is the most restrictive of our six main licenses, only allowing others to download your works and share them with others as long as they credit you, but they can’t change them in any way or use them commercially."
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:307
-#: class-cc-post-republisher.php:74
+#: class-cc-post-republisher-admin.php:275
+#: class-cc-post-republisher.php:64
 msgid "https://creativecommons.org/licenses/by-nc-nd/4.0"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:307
-#: class-cc-post-republisher.php:75
+#: class-cc-post-republisher-admin.php:275
+#: class-cc-post-republisher.php:65
 msgid "https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:316
-#: class-cc-post-republisher.php:80
+#: class-cc-post-republisher-admin.php:284
+#: class-cc-post-republisher.php:70
 msgid "No Rights Reserved"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:317
+#: class-cc-post-republisher-admin.php:285
 msgid "CC0"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:320
-#: class-cc-post-republisher.php:82
+#: class-cc-post-republisher-admin.php:288
+#: class-cc-post-republisher.php:72
 msgid "The person who associated a work with this deed has dedicated the work to the public domain by waiving all of his or her rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law. You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission."
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:321
+#: class-cc-post-republisher-admin.php:289
 msgid "https://creativecommons.org/publicdomain/zero/1.0"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:321
-#: class-cc-post-republisher.php:84
+#: class-cc-post-republisher-admin.php:289
+#: class-cc-post-republisher.php:74
 msgid "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:330
-#: class-cc-post-republisher.php:90
+#: class-cc-post-republisher-admin.php:298
+#: class-cc-post-republisher.php:80
 msgid "Public Domain Mark"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:331
+#: class-cc-post-republisher-admin.php:299
 msgid "PDM"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:334
-#: class-cc-post-republisher.php:91
+#: class-cc-post-republisher-admin.php:302
+#: class-cc-post-republisher.php:81
 msgid "The Public Domain Mark is recommended for works that are free of known copyright around the world. These will typically be very old works.  It is not recommended for use with works that are in the public domain in some jurisdictions if they also known to be restricted by copyright in others."
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:335
-#: class-cc-post-republisher.php:92
-#: class-cc-post-republisher.php:93
+#: class-cc-post-republisher-admin.php:303
+#: class-cc-post-republisher.php:82
+#: class-cc-post-republisher.php:83
 msgid "https://creativecommons.org/share-your-work/public-domain/pdm"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:343
-#: class-cc-post-republisher-meta-box.php:32
+#: class-cc-post-republisher-admin.php:311
+#: class-cc-post-republisher-meta-box.php:28
 msgid "Not Creative Commons Licensed"
 msgstr ""
 
-#: class-cc-post-republisher-admin.php:346
+#: class-cc-post-republisher-admin.php:314
 msgid "Defaults to non-licensed, allowing you to individually set licensing on posts."
 msgstr ""
 
-#: class-cc-post-republisher-meta-box.php:23
+#: class-cc-post-republisher-meta-box.php:19
 msgid "Default License"
 msgstr ""
 
-#: class-cc-post-republisher-meta-box.php:24
+#: class-cc-post-republisher-meta-box.php:20
 msgid "<strong>CC BY</strong> - Attribution"
 msgstr ""
 
-#: class-cc-post-republisher-meta-box.php:25
+#: class-cc-post-republisher-meta-box.php:21
 msgid "<strong>CC BY-SA</strong> - Attribution-ShareAlike"
 msgstr ""
 
-#: class-cc-post-republisher-meta-box.php:26
+#: class-cc-post-republisher-meta-box.php:22
 msgid "<strong>CC BY-ND</strong> - Attribution-NoDerivs"
 msgstr ""
 
-#: class-cc-post-republisher-meta-box.php:27
+#: class-cc-post-republisher-meta-box.php:23
 msgid "<strong>CC BY-NC</strong> - Attribution-NonCommercial"
 msgstr ""
 
-#: class-cc-post-republisher-meta-box.php:28
+#: class-cc-post-republisher-meta-box.php:24
 msgid "<strong>CC BY-NC-SA</strong> - Attribution-NonCommercial-ShareAlike"
 msgstr ""
 
-#: class-cc-post-republisher-meta-box.php:29
+#: class-cc-post-republisher-meta-box.php:25
 msgid "<strong>CC BY-NC-ND</strong> - Attribution-NonCommercial-NoDerivs"
 msgstr ""
 
-#: class-cc-post-republisher-meta-box.php:30
+#: class-cc-post-republisher-meta-box.php:26
 msgid "<strong>CC0</strong> - No Rights Reserved"
 msgstr ""
 
-#: class-cc-post-republisher-meta-box.php:31
+#: class-cc-post-republisher-meta-box.php:27
 msgid "<strong>PDM</strong> - Public Domain Mark"
 msgstr ""
 
 #. translators: admin url
-#: class-cc-post-republisher-meta-box.php:74
+#: class-cc-post-republisher-meta-box.php:72
 msgid "Assign a license to this post. If no license is selected, the post will have the default license that is set in the <a href=\"%s\">Creative Commons Post Republisher Settings</a>."
 msgstr ""
 
-#: class-cc-post-republisher.php:81
+#: class-cc-post-republisher.php:71
 msgid "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"
 msgstr ""
 
-#: class-cc-post-republisher.php:83
+#: class-cc-post-republisher.php:73
 msgid "https://creativecommons.org/publicdomain/zero/1.0/"
 msgstr ""
 
-#: class-cc-post-republisher.php:89
+#: class-cc-post-republisher.php:79
 msgid "Public Domain Mark \"No Known Copyright\""
-msgstr ""
-
-#: class-cc-post-republisher.php:155
-msgid "Creative Commons License"
-msgstr ""
-
-#: class-cc-post-republisher.php:159
-msgid "Republish"
 msgstr ""

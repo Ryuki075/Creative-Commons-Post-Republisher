@@ -3,7 +3,7 @@
 Plugin Name: Creative Commons Post Republisher
 Plugin URI: https://davidwolfpaw.com/
 Description: Place a widget on post pages or after post content with a link to the Creative Commons license that you've applied to your site, as well as a republisher window that makes it easier for others to share your content while maintaining your licensing.
-Version: 1.4.0
+Version: 2.0.0
 Author: wolfpaw
 Author URI: https://davidwolfpaw.com/plugins
 License: GPLv3 or later
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-define( 'CCPR_VERSION', '1.4.0' );
+define( 'CCPR_VERSION', '2.0.0' );
 define( 'CCPR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CCPR_ASSET_DIR', plugin_dir_url( __FILE__ ) . 'assets/' );
 
@@ -43,17 +43,83 @@ if ( is_admin() ) {
 register_activation_hook( __FILE__, 'activate_cc_post_republisher' );
 
 function activate_cc_post_republisher() {
-
 	CC_Post_Republisher_Admin::default_general_settings();
-
 }
 
 /**
  * Load the plugin textdomain
  */
 function cc_post_republisher_init() {
-
-	load_plugin_textdomain( 'cc-post-republisher', false, basename( dirname( __FILE__ ) ) . 'languages/' );
-
+	load_plugin_textdomain( 'cc-post-republisher', false, basename( __DIR__ ) . 'languages/' );
 }
 add_action( 'init', 'cc_post_republisher_init' );
+
+/**
+ * Register block scripts and styles.
+ * If the full site editor is not available, fallback
+ */
+function cc_post_republisher_register_block() {
+	wp_register_script(
+		'cc-post-republisher-block',
+		plugins_url( 'license-block/block.js', __FILE__ ),
+		array( 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components' ),
+		CCPR_VERSION,
+		true
+	);
+
+	wp_register_script(
+		'cc-post-republisher-modal',
+		plugins_url( 'license-block/modal.js', __FILE__ ),
+		array( 'jquery', 'wp-blocks', 'wp-element', 'wp-editor' ),
+		CCPR_VERSION,
+		true
+	);
+
+	wp_register_style(
+		'cc-post-republisher-style',
+		plugins_url( 'assets/css/cc-post-republisher.css', __FILE__ ),
+		array(),
+		CCPR_VERSION
+	);
+
+	register_block_type(
+		'cc/post-republisher',
+		array(
+			'editor_script' => 'cc-post-republisher-block',
+			'style'         => 'cc-post-republisher-style',
+		)
+	);
+
+	wp_enqueue_script( 'cc-post-republisher-modal' );
+
+	// Fallback for ClassicPress or environments without FSE
+	// if ( has_action( 'wp_enqueue_scripts', 'wp_enqueue_classic_theme_styles' ) ) {
+	//  add_filter( 'the_content', 'cc_post_republisher_add_to_content' );
+	// }
+}
+add_action( 'init', 'cc_post_republisher_register_block' );
+
+// If the classic editor is active, fallback to placing button after the_content()
+function cc_post_republisher_add_to_content( $content ) {
+	if ( is_singular() && in_the_loop() && is_main_query() ) {
+		ob_start();
+		?>
+		<div>
+			<!-- Fix this for updated button text -->
+			<button id="cc-post-republisher-modal-button-open">Republish</button>
+			<div id="cc-post-republisher-modal"></div>
+		</div>
+		<?php
+		$button_html = ob_get_clean();
+		$content    .= $button_html;
+	}
+	return $content;
+}
+
+// Initialize the plugin
+add_action(
+	'plugins_loaded',
+	function () {
+		new CC_Post_Republisher();
+	}
+);
