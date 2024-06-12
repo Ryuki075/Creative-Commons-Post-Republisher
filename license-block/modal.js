@@ -1,7 +1,13 @@
 jQuery(document).ready(function ($) {
+	// Update the button image with the license image
+	var button = $("#cc-post-republisher-modal-button-open");
+	var licenseImage = modalSettings.licenseImage;
+	button.find('img').attr('src', licenseImage);
+
+	// Populate and open modal on button click
 	$(document).on('click', '#cc-post-republisher-modal-button-open', function () {
-		var postId = wpApiSettings.postID;
-		var postType = wpApiSettings.postType;
+		var postId = modalSettings.postID;
+		var postType = modalSettings.postType;
 
 		// Ensure postId is valid before making the AJAX request
 		if (postId) {
@@ -11,22 +17,22 @@ jQuery(document).ready(function ($) {
 			} else if (postType === 'page') {
 				postType = 'pages';
 			}
-			var postUrl = wpApiSettings.root + 'wp/v2/' + postType + '/' + postId;
+			var postUrl = modalSettings.root + 'wp/v2/' + postType + '/' + postId;
 
 			// AJAX request to get content
 			$.ajax({
 				url: postUrl,
 				method: 'GET',
 				beforeSend: function (xhr) {
-					xhr.setRequestHeader('X-WP-Nonce', wpApiSettings.nonce);
+					xhr.setRequestHeader('X-WP-Nonce', modalSettings.nonce);
 				},
 				success: function (response) {
 					var modal = $('#cc-post-republisher-modal');
-					var container = modal.closest('#cc-post-republisher-modal-container');
+					var container = $('#cc-post-republisher-modal-container');
 
 					if (modal.length) {
-						var licenseContent = wpApiSettings.licenseContent;
-						var termsContent = wpApiSettings.termsContent;
+						var licenseContent = modalSettings.licenseContent;
+						var termsContent = modalSettings.termsContent;
 
 						var content = '<button id="cc-post-republisher-modal-button-close">&times;</button>';
 						content += termsContent;

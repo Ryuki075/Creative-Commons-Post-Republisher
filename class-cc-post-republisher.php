@@ -97,13 +97,14 @@ class CC_Post_Republisher {
 		// Localize the modal script with new data
 		wp_localize_script(
 			'cc-post-republisher-modal',
-			'wpApiSettings',
+			'modalSettings',
 			array(
 				'root'           => esc_url_raw( rest_url() ),
 				'nonce'          => wp_create_nonce( 'wp_rest' ),
 				'postID'         => $post->ID,
 				'postType'       => $post->post_type,
 				'licenseContent' => $this->get_post_republish_license( isset( $post->ID ) ? $post->ID : 0 ),
+				'licenseImage'   => $this->get_license_image( isset( $post->ID ) ? $post->ID : 0 ),
 				'termsContent'   => $this->get_post_republish_terms(),
 			)
 		);
@@ -114,10 +115,8 @@ class CC_Post_Republisher {
 	 */
 	public function admin_enqueue_scripts() {
 		global $post;
-		$options              = get_option( 'cc_post_republisher_settings' );
-		$active_license       = isset( $options['license_type'] ) ? $options['license_type'] : 'cc-by';
-		$licenses             = $this->licenses;
-		$active_license_image = isset( $licenses[ $active_license ] ) ? plugin_dir_url( __FILE__ ) . 'assets/img/' . $licenses[ $active_license ]['license_image'] : '';
+		$options        = get_option( 'cc_post_republisher_settings' );
+		$active_license = isset( $options['license_type'] ) ? $options['license_type'] : 'cc-by';
 
 		// Localize the block script with new data
 		wp_localize_script(
@@ -125,7 +124,7 @@ class CC_Post_Republisher {
 			'blockSettings',
 			array(
 				'activeLicense'      => $active_license,
-				'activeLicenseImage' => $active_license_image,
+				'activeLicenseImage' => $this->get_license_image( isset( $post->ID ) ? $post->ID : 0 ),
 			)
 		);
 	}
@@ -144,6 +143,20 @@ class CC_Post_Republisher {
 		// Fall back to the global setting
 		$options = get_option( 'cc_post_republisher_settings' );
 		return isset( $options['license_type'] ) ? $options['license_type'] : 'cc-by';
+	}
+
+	/**
+	 * Gets the license image of the post that we're going to republish
+	 */
+	public function get_license_image( $post_id ) {
+		$license_type = $this->get_license_type( $post_id );
+
+		if ( isset( $this->licenses[ $license_type ] ) ) {
+			return $this->assets_url . 'img/' . $this->licenses[ $license_type ]['license_image'];
+		}
+
+		// Fall back to a default image if needed
+		return $this->assets_url . 'img/cc-by.png';
 	}
 
 
