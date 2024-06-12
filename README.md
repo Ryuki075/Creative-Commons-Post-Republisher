@@ -1,13 +1,13 @@
 **Version 2.0 does not currently support ClassicPress or environments without the Full Site Editor. This is planned for the next release**
 
 # Creative Commons Post Republisher
-Contributors: wolfpaw
-Donate link: https://davidwolfpaw.com/
-Tags: creative commons, licensing
-Requires at least: 4.0.0
-Tested up to: 6.5.4
-Stable tag: 2.0.0
-License: GPLv3 or later
+Contributors: wolfpaw<br>
+Donate link: https://david.garden/<br>
+Tags: creative commons, licensing<br>
+Requires at least: 4.0.0<br>
+Tested up to: 6.5.4<br>
+Stable tag: 2.0.0<br>
+License: GPLv3 or later<br>
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 This plugin allows you to add a button to your site's posts which will display terms and licensing for Creative Commons reposting, as well as the title and content of the post for easy sharing. This is useful for sites that want to easily and clearly share their content with others.
