@@ -10,8 +10,7 @@
 | **Requires at least:** | 4.0.0 |
 | **Tested up to:** | 6.5.4 |
 | **Stable tag:** | 2.0.0 |
-| **[License](#License):** | GPLv3 or later |
-| **License URI:** | http://www.gnu.org/licenses/gpl-3.0.html |
+| **[License](#License):** | [GPLv3 or later][gplv3] |
 
 This plugin allows you to add a button to your site's posts which will display terms and licensing for Creative Commons (CC) reposting, as well as the title and content of the post for easy sharing. This is useful for sites that want to easily and clearly share their content with others.
 
@@ -64,7 +63,7 @@ This plugin allows you to add a button to your site's posts which will display t
 
 ## License
 
-* [`LICENSE`](LICENSE) ([GPLv3 or later][gplv3] License)
+* [`LICENSE`](LICENSE): [GPLv3 or later][gplv3]
 
 [gplv3]: https://www.gnu.org/licenses/gpl-3.0.html "The GNU General Public License v3.0 - GNU Project - Free Software Foundation"
 
