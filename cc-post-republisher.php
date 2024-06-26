@@ -91,30 +91,8 @@ function cc_post_republisher_register_block() {
 	);
 
 	wp_enqueue_script( 'cc-post-republisher-modal' );
-
-	// Fallback for ClassicPress or environments without FSE
-	// if ( has_action( 'wp_enqueue_scripts', 'wp_enqueue_classic_theme_styles' ) ) {
-	//  add_filter( 'the_content', 'cc_post_republisher_add_to_content' );
-	// }
 }
 add_action( 'init', 'cc_post_republisher_register_block' );
-
-// If the classic editor is active, fallback to placing button after the_content()
-function cc_post_republisher_add_to_content( $content ) {
-	if ( is_singular() && in_the_loop() && is_main_query() ) {
-		ob_start();
-		?>
-		<div>
-			<!-- Fix this for updated button text -->
-			<button id="cc-post-republisher-modal-button-open">Republish</button>
-			<div id="cc-post-republisher-modal"></div>
-		</div>
-		<?php
-		$button_html = ob_get_clean();
-		$content    .= $button_html;
-	}
-	return $content;
-}
 
 // Initialize the plugin
 add_action(

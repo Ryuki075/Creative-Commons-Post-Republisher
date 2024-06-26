@@ -86,6 +86,48 @@ class CC_Post_Republisher {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
+		// Fallback for ClassicPress or environments without FSE
+		if ( ! $this->is_gutenberg_active() ) {
+			add_filter( 'the_content', array( $this, 'cc_post_republisher_add_to_content' ) );
+		}
+	}
+
+	/**
+	 * Check if Gutenberg is active.
+	 * Must be used not earlier than plugins_loaded action fired.
+	 *
+	 * https://gist.github.com/mihdan/8ba1a70d8598460421177c7d31202908
+	 *
+	 * @return bool
+	 */
+	private function is_gutenberg_active() {
+		$gutenberg    = false;
+		$block_editor = false;
+
+		if ( has_filter( 'replace_editor', 'gutenberg_init' ) ) {
+			// Gutenberg is installed and activated.
+			$gutenberg = true;
+		}
+
+		if ( version_compare( $GLOBALS['wp_version'], '5.0-beta', '>' ) ) {
+			// Block editor.
+			$block_editor = true;
+		}
+
+		if ( ! $gutenberg && ! $block_editor ) {
+			return false;
+		}
+
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		if ( ! is_plugin_active( 'classic-editor/classic-editor.php' ) ) {
+			return true;
+		}
+
+		$use_block_editor = ( get_option( 'classic-editor-replace' ) === 'no-replace' );
+
+		return $use_block_editor;
 	}
 
 	/**
@@ -215,5 +257,59 @@ class CC_Post_Republisher {
 		if ( '' !== $ccpr_options['termstext'] ) {
 			return wpautop( $ccpr_options['termstext'] );
 		}
+	}
+
+
+	/**
+	 * If the classic editor is active, fallback to placing button after the_content()
+	 */
+	public function cc_post_republisher_add_to_content( $content ) {
+		if ( is_singular() && in_the_loop() && is_main_query() ) {
+
+			// Set default values
+			$button_text          = isset( $attributes['buttonText'] ) ? $attributes['buttonText'] : 'Republish';
+			$active_license       = get_option( 'cc_post_republisher_settings' )['license_type'];
+			$active_license_image = $this->get_license_image( get_the_ID() );
+
+			// Render the button with the license image
+			ob_start();
+			?>
+			<div>
+				<button id="cc-post-republisher-modal-button-open">
+					<img src="<?php echo esc_url( $active_license_image ); ?>" alt="License Image" style="width: 88px; margin-right: 5px;" />
+					<span><?php echo esc_html( $button_text ); ?></span>
+				</button>
+				<div id="cc-post-republisher-modal-container">
+					<div id="cc-post-republisher-modal"></div>
+				</div>
+			</div>
+			<?php
+			$button_html = ob_get_clean();
+			$content    .= $button_html;
+		}
+		return $content;
+	}
+
+	private function render_republish_button( $attributes ) {
+		// Set default values
+		$button_text          = isset( $attributes['buttonText'] ) ? $attributes['buttonText'] : 'Republish';
+		$active_license       = get_option( 'cc_post_republisher_settings' )['license_type'];
+		$republisher          = new CC_Post_Republisher();
+		$active_license_image = $republisher->get_license_image( get_the_ID() );
+
+		// Render the button with the license image
+		ob_start();
+		?>
+		<div>
+			<button id="cc-post-republisher-modal-button-open">
+				<img src="<?php echo esc_url( $active_license_image ); ?>" alt="License Image" style="width: 88px; margin-right: 5px;" />
+				<span><?php echo esc_html( $button_text ); ?></span>
+			</button>
+			<div id="cc-post-republisher-modal-container">
+				<div id="cc-post-republisher-modal"></div>
+			</div>
+		</div>
+		<?php
+		return ob_get_clean();
 	}
 }
