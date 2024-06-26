@@ -289,27 +289,4 @@ class CC_Post_Republisher {
 		}
 		return $content;
 	}
-
-	private function render_republish_button( $attributes ) {
-		// Set default values
-		$button_text          = isset( $attributes['buttonText'] ) ? $attributes['buttonText'] : 'Republish';
-		$active_license       = get_option( 'cc_post_republisher_settings' )['license_type'];
-		$republisher          = new CC_Post_Republisher();
-		$active_license_image = $republisher->get_license_image( get_the_ID() );
-
-		// Render the button with the license image
-		ob_start();
-		?>
-		<div>
-			<button id="cc-post-republisher-modal-button-open">
-				<img src="<?php echo esc_url( $active_license_image ); ?>" alt="License Image" style="width: 88px; margin-right: 5px;" />
-				<span><?php echo esc_html( $button_text ); ?></span>
-			</button>
-			<div id="cc-post-republisher-modal-container">
-				<div id="cc-post-republisher-modal"></div>
-			</div>
-		</div>
-		<?php
-		return ob_get_clean();
-	}
 }
