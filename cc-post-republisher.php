@@ -3,7 +3,7 @@
 Plugin Name: Creative Commons Post Republisher
 Plugin URI: https://davidwolfpaw.com/
 Description: Place a widget on post pages or after post content with a link to the Creative Commons license that you've applied to your site, as well as a republisher window that makes it easier for others to share your content while maintaining your licensing.
-Version: 2.0.0
+Version: 2.1.0
 Author: wolfpaw
 Author URI: https://davidwolfpaw.com/plugins
 License: GPLv3 or later
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-define( 'CCPR_VERSION', '2.0.0' );
+define( 'CCPR_VERSION', '2.1.0' );
 define( 'CCPR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CCPR_ASSET_DIR', plugin_dir_url( __FILE__ ) . 'assets/' );
 

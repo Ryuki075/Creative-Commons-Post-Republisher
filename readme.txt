@@ -4,7 +4,7 @@ Donate link: https://davidwolfpaw.com/
 Tags: creative commons, licensing
 Requires at least: 4.0.0
 Tested up to: 6.5.4
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -24,6 +24,10 @@ This plugin allows you to add a button to your site's posts which will display t
 A. You can reach me with questions about this plugin via david@fixupfox.com
 
 ## == Changelog ==
+
+### = 2.1.0 =
+* Allows plugin to function in Classic Editor as v1.4 did
+* bug fixes
 
 ### = 2.0.0 =
 * Updates plugin to work with the Full Site Editor
