@@ -4,11 +4,11 @@
  */
 class CC_Post_Republisher_Admin {
 
-	public function __construct() {
+	public $plugin_name = CCPR_PLUGIN_NAME;
+	public $version     = CCPR_VERSION;
+	public $assets_url  = CCPR_ASSET_DIR;
 
-		$this->plugin_name = 'cc-post-republisher';
-		$this->version     = CCPR_VERSION;
-		$this->assets_url  = plugin_dir_url( __FILE__ ) . 'assets/';
+	public function __construct() {
 
 		add_action( 'admin_menu', array( $this, 'setup_plugin_options_menu' ), 9 );
 		add_action( 'admin_init', array( $this, 'initialize_general_settings' ) );

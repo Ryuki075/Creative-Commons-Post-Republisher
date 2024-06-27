@@ -30,6 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'CCPR_VERSION', '2.1.0' );
+define( 'CCPR_PLUGIN_NAME', 'cc-post-republisher' );
 define( 'CCPR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CCPR_ASSET_DIR', plugin_dir_url( __FILE__ ) . 'assets/' );
 

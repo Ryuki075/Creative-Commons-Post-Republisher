@@ -4,6 +4,20 @@
  */
 class CC_Post_Republisher_Meta_Box {
 	/**
+	 * The global license type.
+	 *
+	 * @var string
+	 */
+	private $global_license;
+
+	/**
+	 * The fields for the meta box.
+	 *
+	 * @var array
+	 */
+	private $fields;
+
+	/**
 	 * Class construct method. Adds actions to their respective WordPress hooks.
 	 */
 	public function __construct() {

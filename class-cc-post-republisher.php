@@ -6,6 +6,7 @@ class CC_Post_Republisher {
 
 	private static $post;
 	private $licenses;
+	public $assets_url = CCPR_ASSET_DIR;
 
 	public function __construct() {
 		$this->assets_url = plugin_dir_url( __FILE__ ) . 'assets/';
