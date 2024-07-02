@@ -202,12 +202,10 @@ class CC_Post_Republisher {
 		return $this->assets_url . 'img/cc-by.png';
 	}
 
-
 	/**
 	 * Gets the license of the post that we're going to republish
 	 */
 	public function get_post_republish_license( $post_id ) {
-
 		// Get the license for this post
 		$license_type = $this->get_license_type( $post_id );
 
@@ -252,14 +250,12 @@ class CC_Post_Republisher {
 	 * Gets the terms of the post that we're going to republish
 	 */
 	public function get_post_republish_terms() {
-
 		$ccpr_options = get_option( 'cc_post_republisher_settings' );
 
 		if ( '' !== $ccpr_options['termstext'] ) {
 			return wpautop( $ccpr_options['termstext'] );
 		}
 	}
-
 
 	/**
 	 * If the classic editor is active, fallback to placing button after the_content()

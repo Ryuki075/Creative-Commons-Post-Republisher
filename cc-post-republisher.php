@@ -41,12 +41,6 @@ if ( is_admin() ) {
 	require_once CCPR_PLUGIN_DIR . 'class-cc-post-republisher-meta-box.php';
 }
 
-register_activation_hook( __FILE__, 'activate_cc_post_republisher' );
-
-function activate_cc_post_republisher() {
-	CC_Post_Republisher_Admin::default_general_settings();
-}
-
 /**
  * Load the plugin textdomain
  */
@@ -94,6 +88,45 @@ function cc_post_republisher_register_block() {
 	wp_enqueue_script( 'cc-post-republisher-modal' );
 }
 add_action( 'init', 'cc_post_republisher_register_block' );
+
+/**
+ * Functions to run on plugin activation
+ */
+function activate_cc_post_republisher() {
+	CC_Post_Republisher_Admin::default_general_settings();
+}
+register_activation_hook( __FILE__, 'activate_cc_post_republisher' );
+
+/**
+ * Functions to run on plugin deactivation
+ */
+function cc_post_republisher_deactivate() {
+	$options = get_option( 'cc_post_republisher_settings' );
+	if ( isset( $options['remove_block_on_deactivate'] ) && 'yes' === $options['remove_block_on_deactivate'] ) {
+		cc_post_republisher_remove_block();
+	}
+}
+register_deactivation_hook( __FILE__, 'cc_post_republisher_deactivate' );
+
+function cc_post_republisher_remove_block() {
+	// Check if the user has opted to remove the block on deactivate
+	$options = get_option( 'cc_post_republisher_settings' );
+	if ( isset( $options['remove_block_on_deactivate'] ) && 'yes' === $options['remove_block_on_deactivate'] ) {
+		global $wpdb;
+
+		// Remove block from templates in the site editor (stored in the database)
+		$templates = $wpdb->get_results( "SELECT ID, post_content FROM {$wpdb->posts} WHERE post_type = 'wp_template' OR post_type = 'wp_template_part'" );
+		foreach ( $templates as $template ) {
+			$content = $template->post_content;
+			$content = preg_replace( '/<!-- wp:cc\/post-republisher .*?<!-- \/wp:cc\/post-republisher -->/s', '', $content );
+			$wpdb->update(
+				$wpdb->posts,
+				array( 'post_content' => $content ),
+				array( 'ID' => $template->ID )
+			);
+		}
+	}
+}
 
 // Initialize the plugin
 add_action(

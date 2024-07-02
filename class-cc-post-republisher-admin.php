@@ -65,15 +65,16 @@ class CC_Post_Republisher_Admin {
 		$site_name   = get_bloginfo( 'name' );
 
 		$defaults = array(
-			'termstext'    => sprintf(
+			'termstext'                  => sprintf(
 				'<strong>REPUBLISHING TERMS</strong>
 				<p>You may republish this article online or in print under the selected Creative Commons license. You must provide attribution to the article when republishing. An ideal attribution to this article includes: Title, Author, Source, License. For more information on providing attribution, see: <a href="https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution" target="_blank">https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution</a></p>
 				<p>If you have any questions, please email <a href="mailto:%s">%s</a></p>',
 				esc_attr( $admin_email ),
 				esc_attr( $admin_email )
 			),
-			'license_type' => 'cc-by',
-			'button_text'  => 'Republish',
+			'license_type'               => 'cc-by',
+			'button_text'                => 'Republish',
+			'remove_block_on_deactivate' => 'no',
 		);
 
 		update_option( 'cc_post_republisher_settings', $defaults );
@@ -166,6 +167,20 @@ class CC_Post_Republisher_Admin {
 		//      'option_id'    => 'button_text',
 		//  )
 		// );
+
+		add_settings_field(
+			'remove_block_on_deactivate',
+			__( 'Remove Block on Deactivation', 'cc-post-republisher' ),
+			array( $this, 'checkbox_input_callback' ),
+			'cc_post_republisher_general_settings',
+			'general_settings_section',
+			array(
+				'label_for'    => 'remove_block_on_deactivate',
+				'option_group' => 'cc_post_republisher_settings',
+				'option_id'    => 'remove_block_on_deactivate',
+				'description'  => __( 'Check this option to remove the Creative Commons Post Republisher block from custom templates when the plugin is deactivated. This setting should only be activated if you do not plan to reactivate the plugin.', 'cc-post-republisher' ),
+			)
+		);
 
 		register_setting(
 			'cc_post_republisher_general_settings',
@@ -343,6 +358,20 @@ class CC_Post_Republisher_Admin {
 
 		echo '<input type="text" id="' . esc_attr( $option_id ) . '" name="' . esc_attr( $option_name ) . '" value="' . esc_attr( $value ) . '" />';
 	}
+
+	public function checkbox_input_callback( $args ) {
+		$option_group = $args['option_group'];
+		$option_id    = $args['option_id'];
+		$option_name  = "{$option_group}[{$option_id}]";
+		$options      = get_option( $option_group );
+		$value        = isset( $options[ $option_id ] ) ? $options[ $option_id ] : '';
+
+		echo '<input type="checkbox" id="' . esc_attr( $option_id ) . '" name="' . esc_attr( $option_name ) . '" value="yes" ' . checked( $value, 'yes', false ) . ' />';
+		if ( isset( $args['description'] ) ) {
+			echo '<span class="description">' . esc_html( $args['description'] ) . '</span>';
+		}
+	}
+
 
 	// Validate inputs
 	public function validate_inputs( $input ) {
