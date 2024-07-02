@@ -20,6 +20,22 @@ class CC_Post_Republisher_Admin {
 	 */
 	public function cc_post_republisher_scripts() {
 		wp_enqueue_style( 'cc-post-republisher-admin-css', $this->assets_url . 'css/cc-post-republisher-admin.css', array(), CCPR_VERSION );
+		wp_enqueue_script(
+			'cc-post-republisher-modal',
+			$this->assets_url . 'license-block/modal.js',
+			array( 'jquery' ),
+			CCPR_VERSION,
+			true
+		);
+
+		wp_localize_script(
+			'cc-post-republisher-modal',
+			'modalSettings',
+			array(
+				'root'  => esc_url_raw( rest_url() ),
+				'nonce' => wp_create_nonce( 'wp_rest' ),
+			)
+		);
 	}
 
 	/**
